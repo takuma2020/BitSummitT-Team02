@@ -8,11 +8,13 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public class Fade : MonoBehaviour
 {
-    private Image fadeImage;                // 透明度を変更するパネルのイメージ
-    private float red, green, blue, alfa;   // パネルの色、不透明度を管理
-    private float fadeSpeed = 0.02f;        // 透明度が変わるスピードを管理
-    private bool isFadeOutScreen = false;   // フェードアウト処理の開始、完了を管理するフラグ
-    private bool isFadeInScreen = false;    // フェードイン処理の開始、完了を管理するフラグ
+    private Image fadeImage;                    // 透明度を変更するパネルのイメージ
+    private float red, green, blue, alfa;       // パネルの色、不透明度を管理
+    private float fadeSpeed = 0.01f;            // 透明度が変わるスピードを管理
+    private bool isFadeOutScreen = false;       // フェードアウト処理の開始、完了を管理するフラグ
+    private bool isFadeInScreen = false;        // フェードイン処理の開始、完了を管理するフラグ
+    private bool isFadeHalfOutScreen = false;   // 半分フェードアウト処理の開始、完了を管理するフラグ
+    private bool isFadeHalfInScreen = false;    // 半分フェードイン処理の開始、完了を管理するフラグ
 
     private void Start()
     {
@@ -24,12 +26,12 @@ public class Fade : MonoBehaviour
     }
     private void Update()
     {
-        if (isFadeInScreen)
+        if (isFadeInScreen || isFadeHalfInScreen)
         {
             StartFadeIn();
         }
 
-        if (isFadeOutScreen)
+        if (isFadeOutScreen || isFadeHalfOutScreen)
         {
             StartFadeOut();
         }
@@ -37,26 +39,38 @@ public class Fade : MonoBehaviour
 
     private void StartFadeIn()
     {
-        alfa -= fadeSpeed;                  // 不透明度を徐々に下げる
-        SetAlpha();                         // 変更した不透明度パネルに反映する
-
-        // 完全に透明になったら処理を抜ける
-        if (alfa <= 0.0f)
+        // 目標値まで透明になったら処理を抜ける
+        float goalAlpha = (isFadeInScreen) ? 0.0f : 0.5f;
+        if (alfa <= goalAlpha)
         {
+            if (isFadeInScreen)
+            {
+                fadeImage.enabled = false;  // パネルの表示をオフにする
+            }
             isFadeInScreen = false;
-            fadeImage.enabled = false;      // パネルの表示をオフにする
+            isFadeHalfInScreen = false;
+        }
+        else
+        {
+            fadeImage.enabled = true;           // パネルの表示をオンにする
+            alfa -= fadeSpeed;                  // 不透明度を徐々に下げる
+            SetAlpha();                         // 変更した不透明度パネルに反映する
         }
     }
     private void StartFadeOut()
     {
-        fadeImage.enabled = true;           // パネルの表示をオンにする
-        alfa += fadeSpeed;                  // 不透明度を徐々にあげる
-        SetAlpha();                         // 変更した透明度をパネルに反映する
-
-        // 完全に不透明になったら処理を抜ける
-        if (alfa >= 1.0f)
+        // 目標値まで不透明になったら処理を抜ける
+        float goalAlpha = (isFadeOutScreen) ? 1.0f : 0.5f;
+        if (alfa >= goalAlpha)
         {
             isFadeOutScreen = false;
+            isFadeHalfOutScreen = false;
+        }
+        else
+        {
+            fadeImage.enabled = true;           // パネルの表示をオンにする
+            alfa += fadeSpeed;                  // 不透明度を徐々にあげる
+            SetAlpha();                         // 変更した透明度をパネルに反映する
         }
     }
     private void SetAlpha()
