@@ -77,4 +77,34 @@ public class Fade : MonoBehaviour
     {
         fadeImage.color = new Color(red, green, blue, alfa);
     }
+    
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+    public void CallFadeIn()
+    {
+        isFadeInScreen = true;
+        alfa = 1.0f;
+        SetAlpha();
+    }
+    public void CallFadeInHalf()
+    {
+        isFadeHalfInScreen = true;
+        alfa = 1.0f;
+        SetAlpha();
+    }
+
+    public void CallFadeOut()
+    {
+        isFadeOutScreen = true;
+        alfa = 0.0f;
+        SetAlpha();
+    }
+    public void CallFadeOutHalf()
+    {
+        isFadeHalfOutScreen = true;
+        alfa = 0.0f;
+        SetAlpha();
+    }
 }
