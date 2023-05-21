@@ -24,6 +24,7 @@ public class Fade : MonoBehaviour
         blue = fadeImage.color.b;
         alfa = fadeImage.color.a;
     }
+
     private void Update()
     {
         if (isFadeInScreen || isFadeHalfInScreen)
@@ -57,6 +58,7 @@ public class Fade : MonoBehaviour
             SetAlpha();                         // 変更した不透明度パネルに反映する
         }
     }
+
     private void StartFadeOut()
     {
         // 目標値まで不透明になったら処理を抜ける
@@ -73,6 +75,7 @@ public class Fade : MonoBehaviour
             SetAlpha();                         // 変更した透明度をパネルに反映する
         }
     }
+
     private void SetAlpha()
     {
         fadeImage.color = new Color(red, green, blue, alfa);
@@ -89,6 +92,7 @@ public class Fade : MonoBehaviour
         alfa = 1.0f;
         SetAlpha();
     }
+
     public void CallFadeInHalf(float setFadeSpeed)
     {
         fadeSpeed = setFadeSpeed;
@@ -104,6 +108,7 @@ public class Fade : MonoBehaviour
         alfa = 0.0f;
         SetAlpha();
     }
+    
     public void CallFadeOutHalf(float setFadeSpeed)
     {
         fadeSpeed = setFadeSpeed;
