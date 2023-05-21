@@ -82,27 +82,31 @@ public class Fade : MonoBehaviour
     //*==========================================
     //  以下の関数を使用すること
     //*==========================================
-    public void CallFadeIn()
+    public void CallFadeIn(float setFadeSpeed)
     {
+        fadeSpeed = setFadeSpeed;
         isFadeInScreen = true;
         alfa = 1.0f;
         SetAlpha();
     }
-    public void CallFadeInHalf()
+    public void CallFadeInHalf(float setFadeSpeed)
     {
+        fadeSpeed = setFadeSpeed;
         isFadeHalfInScreen = true;
         alfa = 1.0f;
         SetAlpha();
     }
 
-    public void CallFadeOut()
+    public void CallFadeOut(float setFadeSpeed)
     {
+        fadeSpeed = setFadeSpeed;
         isFadeOutScreen = true;
         alfa = 0.0f;
         SetAlpha();
     }
-    public void CallFadeOutHalf()
+    public void CallFadeOutHalf(float setFadeSpeed)
     {
+        fadeSpeed = setFadeSpeed;
         isFadeHalfOutScreen = true;
         alfa = 0.0f;
         SetAlpha();
