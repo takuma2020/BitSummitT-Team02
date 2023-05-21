@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+/* ギミックオブジェクトにアタッチする */
+[RequireComponent(typeof(Collider))]
+public class MouseOperationDetector : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
+    // マウスがこのオブジェクトのCollider上に乗っている間ずっと呼び出される関数
+    private void OnMouseOver()
+    {
+        //*==================================================
+        //  ホバー処理（拡大）をここに記述
+        //*==================================================
+
+        // 左クリックされたら
+        if (Input.GetMouseButtonDown(0))
+        {
+            //*=========================================================
+            //  クリック処理（家康移動、ポップアップ操作）をここに記述
+            //*=========================================================
+        }
+    }
+}
