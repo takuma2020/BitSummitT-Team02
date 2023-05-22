@@ -49,4 +49,32 @@ public class Popup : MonoBehaviour
             }
         }
     }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+
+    // ポップアップギミックが起動するときに呼ぶ
+    public void PopupAppear()
+    {
+        disappear = false;
+        appear = true;
+    }
+
+    // ポップアップギミックを閉じるときに呼ぶ
+    public void PopupDisappear()
+    {
+        appear = false;
+        disappear = true;
+    }
+
+    // ポップアップ開始Y座標と速度をデフォルトから変更したい場合に使う
+    //   第一引数：表示したい位置からの相対的なポップアップ開始Y座標
+    //   第二引数：ポップアップ速度
+    public void PopupOption(float setStartPos, float setSpeed)
+    {
+        startPos = setStartPos;
+        speed = setSpeed;
+    }
 }
