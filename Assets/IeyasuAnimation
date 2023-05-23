@@ -78,8 +78,8 @@ public class IeyasuAnimation : MonoBehaviour
     }
 
     // （おまけ）びっくりするアニメーション。使いたいタイミングで呼ぶ
-    public void SurprisedAnimation(bool isReflect)
+    public void SurprisedAnimation()
     {
-        isReflectSurprisedAnimation = isReflect;
+        isReflectSurprisedAnimation = true;
     }
 }
