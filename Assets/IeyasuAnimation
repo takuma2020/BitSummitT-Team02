@@ -58,4 +58,28 @@ public class IeyasuAnimation : MonoBehaviour
             isReflectSurprisedAnimation = false;
         }
     }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+    // ※引数でアニメーションのオンオフを随時設定する。オンの間はそのアニメーションが有効になる
+
+    // 動いていない時の焦りアニメーション。残り３秒になったらオンにする
+    public void PanicAnimation(bool isReflect)
+    {
+        isReflectPanicIdleAnimation = isReflect;
+    }
+
+    // 通常移動アニメーション。現在の移動速度が0より大きいときはtrueで呼んで、0のときはfalseで呼ぶ
+    public void MoveAnimationBool(bool isReflect)
+    {
+        isReflectMoveAnimation = isReflect;
+    }
+
+    // （おまけ）びっくりするアニメーション。使いたいタイミングで呼ぶ
+    public void SurprisedAnimation(bool isReflect)
+    {
+        isReflectSurprisedAnimation = isReflect;
+    }
 }
