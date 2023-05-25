@@ -1,0 +1,80 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/* ポップアップUIオブジェクトにアタッチする */
+public class Popup : MonoBehaviour
+{
+    Vector3 targetPosition, startPosition;
+    private float startPos = -1200.0f;  // 表示したい位置からの相対的なポップアップ開始Y座標
+    private float speed = 4000.0f;      // ポップアップ速度
+    public bool appear = false;
+    public bool disappear = false;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        // 予め表示させたい位置にポップアップを置いておく
+        targetPosition = transform.position;
+
+        // ポップアップ開始位置を設定
+        transform.position = transform.position + new Vector3(0, startPos);
+
+        // ポップアップ開始位置を保持
+        startPosition = transform.position;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (appear)
+        {
+            transform.position =
+                Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
+
+            if(transform.position == targetPosition)
+            {
+                appear = false;
+            }
+        }
+
+        if (disappear)
+        {
+            transform.position =
+                    Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
+
+            if (transform.position == startPosition)
+            {
+                disappear = false;
+            }
+        }
+    }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+
+    // ポップアップギミックが起動するときに呼ぶ
+    public void PopupAppear()
+    {
+        disappear = false;
+        appear = true;
+    }
+
+    // ポップアップギミックを閉じるときに呼ぶ
+    public void PopupDisappear()
+    {
+        appear = false;
+        disappear = true;
+    }
+
+    // ポップアップ開始Y座標と速度をデフォルトから変更したい場合に使う
+    //   第一引数：表示したい位置からの相対的なポップアップ開始Y座標
+    //   第二引数：ポップアップ速度
+    public void PopupOption(float setStartPos, float setSpeed)
+    {
+        startPos = setStartPos;
+        speed = setSpeed;
+    }
+}
