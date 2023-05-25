@@ -7,14 +7,62 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class MouseOperationDetector : MonoBehaviour
 {
+    // ホバーの拡大/縮小処理で使用する変数
+    private bool isScaleUp;
+    private Vector3 defaultScale;
+    private GameObject copyObject;
+
     // Start is called before the first frame update
     void Start()
     {
+        // コライダーの比率は変わらないようにしたいため、コピーのオブジェクトを生成してそれを拡大縮小させる方法を採用
+        copyObject = Instantiate(this.gameObject, this.transform.position, this.transform.rotation);
+        copyObject.GetComponent<Collider>().enabled = false;
+        if(copyObject.GetComponent<Rigidbody>())
+        {
+            copyObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
+        if(copyObject.GetComponent<AudioSource>())
+        {
+            copyObject.GetComponent<AudioSource>().enabled = false;
+        }
+        copyObject.transform.SetParent(this.transform);
+        copyObject.SetActive(false);
+
+        isScaleUp = false;
+        defaultScale = copyObject.transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // ホバーの拡大/縮小処理
+        if (isScaleUp)
+        {
+            if (copyObject.transform.localScale.x < defaultScale.x * 2f)
+            {
+                copyObject.SetActive(true);
+                copyObject.transform.localScale = copyObject.transform.localScale * 1.05f;
+            }
+            else
+            {
+                copyObject.transform.localScale = defaultScale * 2f;
+            }
+        }
+        else
+        {
+            if (copyObject.transform.localScale.x > defaultScale.x)
+            {
+                copyObject.SetActive(true);
+                copyObject.transform.localScale = copyObject.transform.localScale * 0.95f;
+            }
+            else
+            {
+                copyObject.transform.localScale = defaultScale;
+                copyObject.SetActive(false);
+            }
+        }
+        isScaleUp = false;
     }
 
     // マウスがこのオブジェクトのCollider上に乗っている間ずっと呼び出される関数
@@ -23,6 +71,7 @@ public class MouseOperationDetector : MonoBehaviour
         //*==================================================
         //  ホバー処理（拡大）をここに記述
         //*==================================================
+        isScaleUp = true;
 
         // 左クリックされたら
         if (Input.GetMouseButtonDown(0))
