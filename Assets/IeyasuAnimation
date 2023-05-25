@@ -1,0 +1,85 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+
+/* アニメーションさせたいキャラクターにアタッチする */
+[RequireComponent(typeof(Animator))]
+public class IeyasuAnimation : MonoBehaviour
+{
+    private Animator animator;
+
+    // 【テスト用】インスペクター上でいじれるようにしてある
+    [SerializeField] private bool isReflectPanicIdleAnimation;
+    [SerializeField] private bool isReflectMoveAnimation;
+    [SerializeField] private bool isReflectSurprisedAnimation;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        animator = this.GetComponent<Animator>();
+        isReflectPanicIdleAnimation = false;
+        isReflectMoveAnimation = false;
+        isReflectSurprisedAnimation = false;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        // 動いていない時の焦りアニメーション（残り３秒）
+        if (isReflectPanicIdleAnimation)
+        {
+            // 焦りフラグをアニメーターに反映
+            animator.SetBool("isPanic", true);
+        }
+        else
+        {
+            // 焦りフラグをアニメーターに反映
+            animator.SetBool("isPanic", false);
+        }
+
+        // 通常移動アニメーション
+        if (isReflectMoveAnimation)
+        {
+            // 移動フラグをアニメーターに反映
+            animator.SetBool("isMove", true);
+        }
+        else
+        {
+            // 移動フラグをアニメーターに反映
+            animator.SetBool("isMove", false);
+        }
+
+        // びっくりするアニメーション
+        if (isReflectSurprisedAnimation)
+        {
+            // びっくりフラグをアニメーターに反映
+            animator.SetTrigger("isSurprised");
+            isReflectSurprisedAnimation = false;
+        }
+    }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+    // ※引数でアニメーションのオンオフを随時設定する。オンの間はそのアニメーションが有効になる
+
+    // 動いていない時の焦りアニメーション。残り３秒になったらオンにする
+    public void PanicAnimation(bool isReflect)
+    {
+        isReflectPanicIdleAnimation = isReflect;
+    }
+
+    // 通常移動アニメーション。現在の移動速度が0より大きいときはtrueで呼んで、0のときはfalseで呼ぶ
+    public void MoveAnimationBool(bool isReflect)
+    {
+        isReflectMoveAnimation = isReflect;
+    }
+
+    // （おまけ）びっくりするアニメーション。使いたいタイミングで呼ぶ
+    public void SurprisedAnimation()
+    {
+        isReflectSurprisedAnimation = true;
+    }
+}
