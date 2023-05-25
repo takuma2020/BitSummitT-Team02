@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/* アニメーションさせたいキャラクターにアタッチする */
+[RequireComponent(typeof(Animator))]
+public class KashinAnimation : MonoBehaviour
+{
+    private Animator animator;
+
+    // 【テスト用】インスペクター上でいじれるようにしてある
+    [SerializeField] private bool isReflectEscapeAnimation;
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        animator = this.GetComponent<Animator>();
+        isReflectEscapeAnimation = false;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        // 慌てて逃げるアニメーション（水をかけられるなど）
+        if (isReflectEscapeAnimation)
+        {
+            // 逃げるフラグをアニメーターに反映
+            animator.SetBool("isEscape", true);
+        }
+        else
+        {
+            // 逃げるフラグをアニメーターに反映
+            animator.SetBool("isEscape", false);
+        }
+    }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+    // ※引数でアニメーションのオンオフを随時設定する。オンの間はそのアニメーションが有効になる
+
+    // 慌てて逃げるアニメーション。逃げる（移動速度が0より大きくなる）タイミングでオンにする
+    public void EscapeAnimation(bool isReflect)
+    {
+        isReflectEscapeAnimation = isReflect;
+    }
+}
