@@ -33,4 +33,16 @@ public class KashinAnimation : MonoBehaviour
             animator.SetBool("isEscape", false);
         }
     }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+    // ※引数でアニメーションのオンオフを随時設定する。オンの間はそのアニメーションが有効になる
+
+    // 慌てて逃げるアニメーション。逃げる（移動速度が0より大きくなる）タイミングでオンにする
+    public void EscapeAnimation(bool isReflect)
+    {
+        isReflectEscapeAnimation = isReflect;
+    }
 }
