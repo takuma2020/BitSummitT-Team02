@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/* 音を出すオブジェクトにアタッチする */
+[RequireComponent(typeof(AudioSource))]
+public class Sound : MonoBehaviour
+{
+    // 再生する音源をインスペクター上で必ず１つ以上セットする！
+    // Unityで使用できる音声ファイルは「.aif」、「.wav」、「.mp3」、「.ogg」
+    [SerializeField] private AudioClip clip1;
+    [SerializeField] private AudioClip clip2;
+    [SerializeField] private AudioClip clip3;
+
+    private AudioClip clipNum;
+    private bool loopSet;
+    private float volumeSet;
+    private AudioSource audioSource;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        audioSource = this.GetComponent<AudioSource>();
+        audioSource.playOnAwake = false;
+        audioSource.loop = false;
+        loopSet = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(audioSource.loop)
+        {
+            if(!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(clipNum, volumeSet);
+            }
+        }
+    }
+}
