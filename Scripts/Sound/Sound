@@ -37,4 +37,96 @@ public class Sound : MonoBehaviour
             }
         }
     }
+
+
+    //*==========================================
+    //  以下の関数を使用すること
+    //*==========================================
+
+    // 再生メソッド
+    //      第１引数：インスペクター上でセットした1～3のクリップのうち何番目を再生するか
+    //      第２引数：ループさせるかどうか
+    //      第３引数：音量(0.0f～1.0f)
+    //      ↓必要な場合のみ↓
+    //      第４引数：trueにすると、その場で一時的にゲームオブジェクトを生成してそこで音を鳴らす。ループが無効になり、かつ停止できなくなるので注意
+    public void PlayClip(int clipNumber, bool isLoop, float setVolume, bool isAtPoint = false)
+    {
+        if (clipNumber > 3)
+        {
+            clipNumber = 3;
+        }
+        else if (clipNumber < 1)
+        {
+            clipNumber = 1;
+        }
+        switch(clipNumber)
+        {
+            case 1:
+                clipNum = clip1;
+                break;
+
+            case 2:
+                clipNum = clip2;
+                break;
+
+            case 3:
+                clipNum = clip3;
+                break;
+        }
+
+        if (isLoop)
+        {
+            audioSource.loop = true;
+            loopSet = true;
+        }
+
+        if(setVolume > 1f)
+        {
+            setVolume = 1f;
+        }
+        else if(setVolume < 0f)
+        {
+            setVolume = 0f;
+        }
+        volumeSet = setVolume;
+
+        if (!isAtPoint)
+        {
+            audioSource.PlayOneShot(clipNum, volumeSet);
+        }
+        else
+        {
+            audioSource.loop = false;
+            loopSet = false;
+            AudioSource.PlayClipAtPoint(clipNum, this.transform.position, volumeSet);
+        }
+    }
+
+    // 停止メソッド
+    // ※同時に再生されている音がすべて停止するため注意
+    public void StopClip()
+    {
+        audioSource.loop = false;
+        audioSource.Stop();
+    }
+
+    // 一時停止/停止解除メソッド（停止位置を保持）
+    // ※同時に再生されている音がすべて一時停止するため注意
+    //      引数：trueで一時停止/falseで再開
+    public void PauseClip(bool isPause)
+    {
+        if (isPause)
+        {
+            audioSource.loop = false;
+            audioSource.Pause();
+        }
+        else
+        {
+            if (loopSet)
+            {
+                audioSource.loop = true;
+            }
+            audioSource.UnPause();
+        }
+    }
 }
